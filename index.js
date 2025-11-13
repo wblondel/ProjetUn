@@ -6,7 +6,7 @@ class DevoirSurveille {
         this.classe = classe;
     }
 
-    afficherStatsNotes(){
+    afficherStatsNotes() {
         const NotesMin = Math.min(...this.notes);
         const NotesMax = Math.max(...this.notes);
         const NotesMoy = this.notes.reduce((a, b) => a + b, 0) / this.notes.length;
@@ -37,21 +37,12 @@ class Eleve {
 let classes = [];
 let devoirsSurveilles = [];
 
+function quitter() {
+    console.log("Au revoir !");
+    throw new Error("Programme terminé par l'utilisateur.");
+}
 
-while (true) {
-    // START MENU
-    console.log("Bienvenue dans le gestionnaire de devoirs surveillés.");
-    console.log("1. Ajouter un devoir surveillé");
-    console.log("2. Quitter");
-    let choix = prompt("Entrez votre choix (1 ou 2) :");
-
-    if (choix == "2") {
-        console.log("Au revoir !");
-        throw new Error("Programme terminé par l'utilisateur.");
-    }
-    // END MENU
-
-    // On demande les informations sur le DS
+function ajouterDS(){
     const date = prompt("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
     const coefficient = parseFloat(prompt("Entrez le coefficient du devoir surveillé :"));
     const nomClasse = prompt("Entrez la classe (ex: 3A, 2B, etc.) :");
@@ -95,4 +86,24 @@ while (true) {
     devoirsSurveilles.push(ds);
     console.log("Devoir Surveillé créé : ", ds);
     ds.afficherStatsNotes();
+}
+
+while (true) {
+    // START MENU
+    console.log("Bienvenue dans le gestionnaire de devoirs surveillés.");
+    console.log("1. Ajouter un devoir surveillé");
+    console.log("2. Consulter notes du DS");
+    console.log("3. Quitter");
+    let choix = prompt("Entrez votre choix (1, 2 ou 3) :");
+
+    if (choix == "1") {
+        ajouterDS();
+    }
+    else if (choix == "3") {
+        quitter();
+    }
+    // END MENU
+
+    // On demande les informations sur le DS
+
 }
