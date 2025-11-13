@@ -1,5 +1,6 @@
 class DevoirSurveille {
-    constructor(date, coefficient, notes, classe) {
+    constructor(id, date, coefficient, notes, classe) {
+        this.id = id;
         this.date = date;
         this.coefficient = coefficient;
         this.notes = notes;
@@ -42,7 +43,7 @@ function quitter() {
     throw new Error("Programme terminé par l'utilisateur.");
 }
 
-function ajouterDS(){
+function ajouterDS(){ 
     const date = prompt("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
     const coefficient = parseFloat(prompt("Entrez le coefficient du devoir surveillé :"));
     const nomClasse = prompt("Entrez la classe (ex: 3A, 2B, etc.) :");
@@ -50,7 +51,7 @@ function ajouterDS(){
     // On récupère la classe si elle existe déjà (nomClasse = nom d'une classe dans classes)
     let classeDevoirSurveille = null;
     for (const classe of classes) {
-        if (classe.nom = nomClasse) {
+        if (classe.nom == nomClasse) {
             classeDevoirSurveille = classe;
             break;
         }
@@ -62,7 +63,7 @@ function ajouterDS(){
 
     // On demande les notes (et les élèves si la classe n'existe pas)
     for (let i = 0; i < nombreNotes; i++) {
-        if (!classeDevoirSurveille) {
+        if (classeDevoirSurveille === null) {
             let eleveNom = prompt(`Entrez le nom de l'élève ${i + 1} :`);
             let elevePrenom = prompt(`Entrez le prénom de l'élève ${i + 1} :`);
 
@@ -81,11 +82,40 @@ function ajouterDS(){
         classes.push(classeDevoirSurveille);
     }
 
+    // On génère un ID unique pour le devoir surveillé
+    const id = devoirsSurveilles.length + 1;
+    
     // On crée le devoir surveillé
-    const ds = new DevoirSurveille(date, coefficient, notes, classeDevoirSurveille);
+    const ds = new DevoirSurveille(id, date, coefficient, notes, classeDevoirSurveille);
     devoirsSurveilles.push(ds);
     console.log("Devoir Surveillé créé : ", ds);
     ds.afficherStatsNotes();
+}
+
+function consulterNotesDS() {
+    if (devoirsSurveilles.length === 0) {
+        console.log("Pas de devoirs surveillés.");
+        return;
+    }
+
+    const num_ds = parseInt(prompt("Quel DS voulez-vous afficher ?"));
+    
+    if (num_ds < 1 || num_ds > devoirsSurveilles.length) {
+        console.log("Numéro de DS invalide.");
+        return;
+    }
+
+    const ds = devoirsSurveilles[num_ds - 1];
+
+    console.log(`Devoir Surveillé n°${ds.id} du ${ds.date}`);
+    console.log(`Coefficient: ${ds.coefficient}`);
+    console.log(`Classe: ${ds.classe.nom}`);
+    console.log("Élèves et leurs notes :");
+    for (let i = 0; i < ds.notes.length; i++) {
+        let eleve = ds.classe.eleves[i];
+        let note = ds.notes[i];
+        console.log(`${eleve.prenom} ${eleve.nom} : ${note}`);
+    }
 }
 
 while (true) {
@@ -98,12 +128,9 @@ while (true) {
 
     if (choix == "1") {
         ajouterDS();
-    }
-    else if (choix == "3") {
+    } else if (choix == "2"){
+        consulterNotesDS();
+    } else if (choix == "3") {
         quitter();
     }
-    // END MENU
-
-    // On demande les informations sur le DS
-
 }
