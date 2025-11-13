@@ -35,8 +35,16 @@ class Eleve {
 // -----------
 
 // Initialisation de la BDD
-let classes = [];
-let devoirsSurveilles = [];
+let classes = [
+    new Classe("3A", [new Eleve("Dupont", "Jean"), new Eleve("Martin", "Claire")]),
+    new Classe("2B", [new Eleve("Durand", "Paul"), new Eleve("Leroy", "Sophie")])
+];
+let devoirsSurveilles = [
+    new DevoirSurveille(1, "15/09/2023", 2, [12, 15], classes[0]),
+    new DevoirSurveille(2, "20/09/2023", 3, [14, 18], classes[1]),
+    new DevoirSurveille(3, "25/09/2023", 1.5, [10, 13], classes[0]),
+    new DevoirSurveille(4, "30/09/2023", 2.5, [16, 19], classes[1])
+];
 
 function quitter() {
     console.log("Au revoir !");
@@ -92,14 +100,16 @@ function ajouterDS(){
     ds.afficherStatsNotes();
 }
 
-function consulterNotesDS() {
+function consulterNotesDS(num_ds = null) {
     if (devoirsSurveilles.length === 0) {
         console.log("Pas de devoirs surveillés.");
         return;
     }
 
-    const num_ds = parseInt(prompt("Quel DS voulez-vous afficher ?"));
-    
+    if (num_ds === null) {
+        num_ds = parseInt(prompt("Quel DS voulez-vous afficher ?"));
+    }
+
     if (num_ds < 1 || num_ds > devoirsSurveilles.length) {
         console.log("Numéro de DS invalide.");
         return;
@@ -118,12 +128,65 @@ function consulterNotesDS() {
     }
 }
 
+function consulterClasse() {
+    while (true) {
+        classes.forEach((classe, index) => {
+        // classe est l'élément courant, index est son index dans le tableau
+            console.log(`${index + 1}. ${classe.nom}`);
+        });
+        console.log("Q. Retour au menu principal");
+        console.log("------------------------------");
+        
+        const numeroClasse = prompt("Votre choix : ");
+
+        if (numeroClasse.toUpperCase() === "Q") {
+            return;
+        }
+
+        const indexClasse = parseInt(numeroClasse) - 1;
+        if (isNaN(indexClasse) || indexClasse < 0 || indexClasse >= classes.length) {
+            console.log("Choix invalide. Veuillez réessayer.");
+            return;
+        }
+
+        const classeTrouvee = classes[indexClasse];
+
+        while (true) {
+            console.log(`Devoirs surveillés pour la classe ${classeTrouvee.nom} :`);
+            let choixPossibles = [];
+            devoirsSurveilles.forEach((ds) => {
+                if (ds.classe === classeTrouvee) {
+                    choixPossibles.push(ds.id);
+                    console.log(`DS n°${ds.id} du ${ds.date} (Coefficient: ${ds.coefficient})`);
+                }
+            });
+            console.log("0. Retour à la sélection de classe");
+            console.log("------------------------------");
+
+            const num_ds = parseInt(prompt("Votre choix ? "));
+
+            if (num_ds === 0) {
+                break;
+            }
+
+            if (choixPossibles.includes(num_ds)) {
+                consulterNotesDS(num_ds);
+            }
+        }
+    }
+    
+
+}
+
 while (true) {
     // START MENU
     console.log("Bienvenue dans le gestionnaire de devoirs surveillés.");
     console.log("1. Ajouter un devoir surveillé");
-    console.log("2. Consulter notes du DS");
-    console.log("3. Quitter");
+    console.log("2. Consulter un DS");
+    console.log("3. Consulter une classe");
+    console.log("4. Consulter les notes d'un élève");
+    console.log("Q. Quitter");
+    console.log("------------------------------");
     let choix = prompt("Entrez votre choix (1, 2 ou 3) :");
 
     if (choix == "1") {
@@ -131,6 +194,11 @@ while (true) {
     } else if (choix == "2"){
         consulterNotesDS();
     } else if (choix == "3") {
+        consulterClasse();
+    } else if (choix == "4") {
+        //consulterNotesEleve();
+    } 
+    else if (choix == "Q") {
         quitter();
-    }
+    } 
 }
