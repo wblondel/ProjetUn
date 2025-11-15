@@ -57,19 +57,23 @@ function quitter() {
     throw new Error("Programme terminé par l'utilisateur.");
 }
 
+function trouverClasseParNom(nomClasse) {
+    return classes.find((classe) => classe.nom === nomClasse) || null;
+}
+
+function creerEleveDepuisPrompt(indexEleve) {
+    const eleveNom = prompt(`Entrez le nom de l'élève ${indexEleve} :`);
+    const elevePrenom = prompt(`Entrez le prénom de l'élève ${indexEleve} :`);
+
+    return new Eleve(eleveNom, elevePrenom);
+}
+
 function ajouterDS(){ 
     const date = prompt("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
     const coefficient = parseFloat(prompt("Entrez le coefficient du devoir surveillé :"));
     const nomClasse = prompt("Entrez la classe (ex: 3A, 2B, etc.) :");
 
-    // On récupère la classe si elle existe déjà (nomClasse = nom d'une classe dans la variable classes).
-    let classeDevoirSurveille = null;
-    for (const classe of classes) {
-        if (classe.nom === nomClasse) {
-            classeDevoirSurveille = classe;
-            break;
-        }
-    }
+    let classeDevoirSurveille = trouverClasseParNom(nomClasse);
 
     const nombreNotes = parseInt(prompt("Combien de notes voulez-vous entrer ?"));
     const notes = [];
@@ -77,17 +81,15 @@ function ajouterDS(){
 
     // On demande les notes (et les élèves si la classe n'existe pas).
     for (let i = 0; i < nombreNotes; i++) {
-        if (classeDevoirSurveille === null) {
-            let eleveNom = prompt(`Entrez le nom de l'élève ${i + 1} :`);
-            let elevePrenom = prompt(`Entrez le prénom de l'élève ${i + 1} :`);
+        const numeroEleve = i + 1;
 
-            // On crée un nouvel élève et on l'ajoute à la liste des élèves
-            eleves.push(new Eleve(eleveNom, elevePrenom));
+        if (classeDevoirSurveille === null) {
+            const nouvelEleve = creerEleveDepuisPrompt(numeroEleve);
+            eleves.push(nouvelEleve);
         }
 
-        // On demande la note
-        let note = parseFloat(prompt(`Entrez la note ${i + 1} :`));
-        notes.push(note);
+        const noteSaisie = parseFloat(prompt(`Entrez la note ${numeroEleve} :`));
+        notes.push(noteSaisie);
     }
 
     // Si la classe n'existe pas, on la crée avec les élèves saisis
@@ -100,90 +102,99 @@ function ajouterDS(){
     const id = devoirsSurveilles.length + 1;
     
     // On crée le devoir surveillé
-    const ds = new DevoirSurveille(id, date, coefficient, notes, classeDevoirSurveille);
-    devoirsSurveilles.push(ds);
-    console.log("Devoir Surveillé créé : ", ds);
-    ds.afficherStatsNotes();
+    const nouveauDevoir = new DevoirSurveille(id, date, coefficient, notes, classeDevoirSurveille);
+    devoirsSurveilles.push(nouveauDevoir);
+
+    console.log("Devoir Surveillé créé : ", nouveauDevoir);
+    nouveauDevoir.afficherStatsNotes();
 }
 
-function consulterNotesDS(num_ds = null) {
+function consulterNotesDS(numeroDS = null) {
     if (devoirsSurveilles.length === 0) {
         console.log("Pas de devoirs surveillés.");
         return;
     }
 
-    if (num_ds === null) {
-        num_ds = parseInt(prompt("Quel DS voulez-vous afficher ?"));
+    if (numeroDS === null) {
+        numeroDS = parseInt(prompt("Quel DS voulez-vous afficher ?"));
     }
 
-    if (num_ds < 1 || num_ds > devoirsSurveilles.length) {
+    if (numeroDS < 1 || numeroDS > devoirsSurveilles.length) {
         console.log("Numéro de DS invalide.");
         return;
     }
 
-    const ds = devoirsSurveilles[num_ds - 1];
+    const devoir = devoirsSurveilles[numeroDS - 1];
+    const classe = devoir.classe;
 
-    console.log(`Devoir Surveillé n°${ds.id} du ${ds.date}`);
-    console.log(`Coefficient: ${ds.coefficient}`);
-    console.log(`Classe: ${ds.classe.nom}`);
-    console.log("Élèves et leurs notes :");
-    for (let i = 0; i < ds.notes.length; i++) {
-        let eleve = ds.classe.eleves[i];
-        let note = ds.notes[i];
-        console.log(`${eleve.prenom} ${eleve.nom} : ${note}`);
+    console.log(`Devoir Surveillé n°${devoir.id} du ${devoir.date}`);
+    console.log(`Coefficient: ${devoir.coefficient}`);
+    console.log(`Classe: ${classe.nom}`);
+    devoir.afficherStatsNotes();
+
+    if (devoir.notes.length !== 0) {
+        console.log();
+        console.log("Élèves et leurs notes :");
+
+        for (let i = 0; i < devoir.notes.length; i++) {
+            const eleve = classe.eleves[i];
+            const note = devoir.notes[i];
+            console.log(`${eleve.prenom} ${eleve.nom} : ${note}`);
+        }
     }
+
+    console.log("------------------------------")
 }
 
 function consulterClasse() {
     while (true) {
+        console.log("Liste des classes :")
         classes.forEach((classe, index) => {
-        // classe est l'élément courant, index est son index dans le tableau
             console.log(`${index + 1}. ${classe.nom}`);
         });
         console.log("Q. Retour au menu principal");
         console.log("------------------------------");
         
-        const numeroClasse = prompt("Votre choix : ");
-
-        if (numeroClasse.toUpperCase() === "Q") {
+        const numeroClasseSaisi = prompt("Votre choix : ");
+        if (numeroClasseSaisi.toUpperCase() === "Q") {
             return;
         }
 
-        const indexClasse = parseInt(numeroClasse) - 1;
+        const indexClasse = parseInt(numeroClasseSaisi) - 1;
         if (isNaN(indexClasse) || indexClasse < 0 || indexClasse >= classes.length) {
             console.log("Choix invalide. Veuillez réessayer.");
             return;
         }
 
-        const classeTrouvee = classes[indexClasse];
+        const classeSelectionnee = classes[indexClasse];
 
         while (true) {
-            console.log(`Devoirs surveillés pour la classe ${classeTrouvee.nom} :`);
-            let choixPossibles = [];
-            devoirsSurveilles.forEach((ds) => {
-                if (ds.classe === classeTrouvee) {
-                    choixPossibles.push(ds.id);
-                    console.log(`DS n°${ds.id} du ${ds.date} (Coefficient: ${ds.coefficient})`);
+            console.log(`Devoirs surveillés pour la classe ${classeSelectionnee.nom} :`);
+            const choixPossibles = [];
+
+            devoirsSurveilles.forEach((devoir) => {
+                if (devoir.classe === classeSelectionnee) {
+                    choixPossibles.push(devoir.id);
+                    console.log(`DS n°${devoir.id} du ${devoir.date} (Coefficient: ${devoir.coefficient})`);
                 }
             });
+
             console.log("0. Retour à la sélection de classe");
             console.log("------------------------------");
 
-            const num_ds = parseInt(prompt("Votre choix ? "));
-
-            if (num_ds === 0) {
+            const numeroDS = parseInt(prompt("Votre choix ? "));
+            if (numeroDS === 0) {
                 break;
             }
 
-            if (choixPossibles.includes(num_ds)) {
-                consulterNotesDS(num_ds);
+            if (choixPossibles.includes(numeroDS)) {
+                consulterNotesDS(numeroDS);
             }
         }
     }
 }
 
-while (true) {
-    // START MENU
+function afficherMenuPrincipal() {
     console.log("Bienvenue dans le gestionnaire de devoirs surveillés.");
     console.log("1. Ajouter un devoir surveillé");
     console.log("2. Consulter un DS");
@@ -191,7 +202,11 @@ while (true) {
     console.log("4. Consulter les notes d'un élève");
     console.log("Q. Quitter");
     console.log("------------------------------");
-    let choix = prompt("Entrez votre choix (1, 2 ou 3) :");
+}
+
+while (true) {
+    afficherMenuPrincipal();
+    const choix = prompt("Entrez votre choix (1, 2, 3, 4 ou Q) :");
 
     if (choix === "1") {
         ajouterDS();
