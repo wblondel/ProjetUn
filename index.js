@@ -56,10 +56,10 @@ function ajouterDS(){
     const coefficient = parseFloat(prompt("Entrez le coefficient du devoir surveillé :"));
     const nomClasse = prompt("Entrez la classe (ex: 3A, 2B, etc.) :");
 
-    // On récupère la classe si elle existe déjà (nomClasse = nom d'une classe dans classes)
+    // On récupère la classe si elle existe déjà (nomClasse = nom d'une classe dans la variable classes).
     let classeDevoirSurveille = null;
     for (const classe of classes) {
-        if (classe.nom == nomClasse) {
+        if (classe.nom === nomClasse) {
             classeDevoirSurveille = classe;
             break;
         }
@@ -69,7 +69,7 @@ function ajouterDS(){
     const notes = [];
     const eleves = [];
 
-    // On demande les notes (et les élèves si la classe n'existe pas)
+    // On demande les notes (et les élèves si la classe n'existe pas).
     for (let i = 0; i < nombreNotes; i++) {
         if (classeDevoirSurveille === null) {
             let eleveNom = prompt(`Entrez le nom de l'élève ${i + 1} :`);
@@ -174,8 +174,6 @@ function consulterClasse() {
             }
         }
     }
-    
-
 }
 
 while (true) {
@@ -189,16 +187,16 @@ while (true) {
     console.log("------------------------------");
     let choix = prompt("Entrez votre choix (1, 2 ou 3) :");
 
-    if (choix == "1") {
+    if (choix === "1") {
         ajouterDS();
-    } else if (choix == "2"){
+    } else if (choix === "2"){
         consulterNotesDS();
-    } else if (choix == "3") {
+    } else if (choix === "3") {
         consulterClasse();
-    } else if (choix == "4") {
+    } else if (choix === "4") {
         //consulterNotesEleve();
     } 
-    else if (choix == "Q") {
+    else if (choix === "Q") {
         quitter();
     } 
 }
