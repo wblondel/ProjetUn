@@ -8,13 +8,19 @@ class DevoirSurveille {
     }
 
     afficherStatsNotes() {
-        const NotesMin = Math.min(...this.notes);
-        const NotesMax = Math.max(...this.notes);
-        const NotesMoy = this.notes.reduce((a, b) => a + b, 0) / this.notes.length;
+        if (!this.notes || this.notes.length === 0) {
+            console.log("Aucune note pour ce devoir surveillé.");
+            return;
+        }
 
-        console.log("Note minimale :", NotesMin);
-        console.log("Note maximale :", NotesMax);
-        console.log("Note moyenne :", NotesMoy);
+        const noteMin = Math.min(...this.notes);
+        const noteMax = Math.max(...this.notes);
+        const sommeNotes = this.notes.reduce((total, noteCourante) => total + noteCourante, 0);
+        const noteMoyenne = sommeNotes / this.notes.length;
+
+        console.log("Note minimale :", noteMin);
+        console.log("Note maximale :", noteMax);
+        console.log("Note moyenne :", noteMoyenne);
     }
 }
 
