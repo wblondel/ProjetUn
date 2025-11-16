@@ -1,4 +1,4 @@
-import { classes, devoirsSurveilles } from "../data/data.js";
+import { classes, notes } from "../data/data.js";
 
 // --------- Helpers ---------
 
@@ -41,34 +41,40 @@ function demanderIndexEleve(maxIndex) {
 }
 
 function afficherNotesPourEleve(eleve) {
-    const nomComplet =
-        typeof eleve.getNomComplet === "function"
-            ? eleve.getNomComplet()
-            : `${eleve.prenom} ${eleve.nom}`;
+    const nomComplet = eleve.getNomComplet();
 
     console.log(`Notes pour ${nomComplet} :`);
     console.log("------------------------------");
 
-    let aAuMoinsUneNote = false;
+    const notesDeCetEleve = notes.filter((note) => note.eleve === eleve);
 
-    devoirsSurveilles.forEach((devoir) => {
-        devoir.notesEleves.forEach((noteEleve) => {
-            if (noteEleve.eleve === eleve) {
-                aAuMoinsUneNote = true;
-                console.log(
-                    `DS n°${devoir.id} du ${devoir.date} ` +
-                    `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient})`
-                );
-                console.log(`  Note : ${noteEleve.valeur}`);
-                console.log("------------------------------");
-            }
-        });
-    });
-
-    if (!aAuMoinsUneNote) {
+    if (notesDeCetEleve.length === 0) {
         console.log("Aucune note trouvée pour cet élève.");
         console.log("------------------------------");
+        return;
     }
+
+    notesDeCetEleve.forEach((note) => {
+        const devoir = note.devoir;
+        console.log(
+            `DS n°${devoir.id} du ${devoir.date} ` +
+            `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient}) : ` +
+            `${note.valeur}`
+        );
+    });
+
+    const moyenne = eleve.calculerMoyennePonderee(notesDeCetEleve);
+    console.log("------------------------------");
+    if (moyenne === null) {
+        console.log(
+            `Impossible de calculer une moyenne pour ${nomComplet} (aucune note ou coefficients nuls).`
+        );
+    } else {
+        console.log(
+            `Moyenne pondérée de ${nomComplet} : ${moyenne.toFixed(2)}`
+        );
+    }
+    console.log("------------------------------");
 }
 
 // --------- Public API ---------
@@ -96,7 +102,6 @@ export function consulterNotesEleve() {
         }
 
         const { eleve } = elevesAvecClasse[indexEleve];
-        console.clear();
         afficherNotesPourEleve(eleve);
 
         const continuer = prompt(

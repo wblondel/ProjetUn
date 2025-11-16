@@ -1,7 +1,7 @@
 import { Classe } from "../models/Classe.js";
 import { DevoirSurveille } from "../models/DevoirSurveille.js";
-import { NoteEleve } from "../models/NoteEleve.js";
-import { classes, devoirsSurveilles } from "../data/data.js";
+import { Note } from "../models/Note.js";
+import { classes, devoirsSurveilles, notes } from "../data/data.js";
 import { creerEleveDepuisPrompt, trouverClasseParNom } from "./utils.js";
 
 export function ajouterDS() {
@@ -13,60 +13,52 @@ export function ajouterDS() {
 
     let classeDevoirSurveille = trouverClasseParNom(nomClasse);
 
+    // Si la classe n'existe pas, on la créé vide tout de suite
+    if (!classeDevoirSurveille) {
+        classeDevoirSurveille = new Classe(nomClasse, []);
+        classes.push(classeDevoirSurveille);
+    }
+
     const nombreNotes = parseInt(
         prompt("Combien de notes voulez-vous entrer ?")
     );
-    const notesEleves = [];
-    const elevesPourNouvelleClasse = [];
 
-    // On demande les notes (et les élèves si la classe n'existe pas).
+    // On génère un ID unique pour le devoir surveillé
+    const id = devoirsSurveilles.length + 1;
+
+    // On crée le devoir surveillé immédiatement, pour pouvoir le lier aux Notes
+    const nouveauDevoir = new DevoirSurveille(
+        id,
+        date,
+        coefficient,
+        classeDevoirSurveille
+    );
+    devoirsSurveilles.push(nouveauDevoir);
+
+    // Un seul passage : on récupère / crée l'élève et on crée la Note
     for (let i = 0; i < nombreNotes; i++) {
         const numeroEleve = i + 1;
-        let eleve;
 
-        if (classeDevoirSurveille === null) {
+        const elevesClasse = classeDevoirSurveille.getEleves();
+        let eleve = elevesClasse[i];
+
+        if (!eleve) {
             eleve = creerEleveDepuisPrompt(numeroEleve);
-            elevesPourNouvelleClasse.push(eleve);
-        } else {
-            // Si la classe existe déjà, on prend l'élève à la même position,
-            // ou on en créé un nouveau si la liste est trop courte.
-            const elevesClasse = classeDevoirSurveille.getEleves();
-
-            if (elevesClasse[i]) {
-                eleve = elevesClasse[i];
-            } else {
-                eleve = creerEleveDepuisPrompt(numeroEleve);
-                classeDevoirSurveille.ajouterEleve(eleve);
-            }
+            classeDevoirSurveille.ajouterEleve(eleve);
         }
 
         const noteSaisie = parseFloat(
             prompt(`Entrez la note ${numeroEleve} :`)
         );
-        notesEleves.push(new NoteEleve(eleve, noteSaisie));
+        notes.push(new Note(eleve, nouveauDevoir, noteSaisie));
     }
 
-    // Si la classe n'existe pas, on la crée avec les élèves saisis
-    if (!classeDevoirSurveille) {
-        classeDevoirSurveille = new Classe(nomClasse, elevesPourNouvelleClasse);
-        classes.push(classeDevoirSurveille);
-    }
+    console.log(nouveauDevoir);
 
-    // On génère un ID unique pour le devoir surveillé
-    const id = devoirsSurveilles.length + 1;
+    const notesDuDevoir = notes.filter((note) => note.devoir === nouveauDevoir);
+    nouveauDevoir.afficherStatsNotes(notesDuDevoir);
 
-    // On crée le devoir surveillé
-    const nouveauDevoir = new DevoirSurveille(
-        id,
-        date,
-        coefficient,
-        notesEleves,
-        classeDevoirSurveille
-    );
-    devoirsSurveilles.push(nouveauDevoir);
-
-    console.log("Devoir Surveillé créé : ", nouveauDevoir);
-    nouveauDevoir.afficherStatsNotes();
+    alert(`Devoir surveillé n°${nouveauDevoir.id} créé.`)
 }
 
 // --------- Helpers for DS consultation ---------
@@ -112,21 +104,24 @@ function afficherEnteteDevoir(devoir) {
 }
 
 function afficherNotesEleves(devoir) {
-    if (!devoir.notesEleves || devoir.notesEleves.length === 0) {
+    const notesDuDevoir = notes.filter((note) => note.devoir === devoir);
+
+    if (!notesDuDevoir || notesDuDevoir.length === 0) {
         return;
     }
 
     console.log();
     console.log("Élèves et leurs notes :");
 
-    devoir.notesEleves.forEach((noteEleve) => {
-        console.log(`${noteEleve.eleve.getNomComplet()} : ${noteEleve.valeur}`);
+    notesDuDevoir.forEach((note) => {
+        console.log(`${note.eleve.getNomComplet()} : ${note.valeur}`);
     });
 }
 
 function afficherDetailsDevoir(devoir) {
+    const notesDuDevoir = notes.filter((note) => note.devoir === devoir);
     afficherEnteteDevoir(devoir);
-    devoir.afficherStatsNotes();
+    devoir.afficherStatsNotes(notesDuDevoir);
     afficherNotesEleves(devoir);
     console.log("------------------------------");
 }

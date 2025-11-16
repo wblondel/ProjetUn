@@ -1,36 +1,41 @@
 export class DevoirSurveille {
-    constructor(id, date, coefficient, notesEleves, classe) {
+    /**
+     * @param {number} id
+     * @param {string} date // text "jj/mm/aaaa"
+     * @param {number} coefficient
+     * @param {Classe} classe
+     */
+    constructor(id, date, coefficient, classe) {
         this.id = id;
         this.date = date;
         this.coefficient = coefficient;
-        this.notesEleves = notesEleves;
         this.classe = classe;
     }
 
-    getNotes() {
-        return this.notesEleves.map((noteEleve) => noteEleve.valeur);
-    }
+    /**
+     * Calcule les stats à partir d'une liste de notes (pour ce devoir).
+     * @param {Note[]} notesDuDevoir
+     */
+    calculerStats(notesDuDevoir) {
+        const valeurs = notesDuDevoir.map((note) => note.valeur);
 
-    calculerStats() {
-        const notes = this.getNotes();
-
-        if (!notes || notes.length === 0) {
+        if (!valeurs || valeurs.length === 0) {
             return;
         }
 
-        const noteMin = Math.min(...notes);
-        const noteMax = Math.max(...notes);
-        const sommeNotes = notes.reduce(
+        const noteMin = Math.min(...valeurs);
+        const noteMax = Math.max(...valeurs);
+        const sommeNotes = valeurs.reduce(
             (total, noteCourante) => total + noteCourante,
             0
         );
-        const noteMoyenne = sommeNotes / notes.length;
+        const noteMoyenne = sommeNotes / valeurs.length;
 
         return { noteMin, noteMax, noteMoyenne };
     }
 
-    afficherStatsNotes() {
-        const stats = this.calculerStats();
+    afficherStatsNotes(notesDuDevoir) {
+        const stats = this.calculerStats(notesDuDevoir);
 
         if (!stats) {
             console.log("Aucune note pour ce devoir surveillé.");

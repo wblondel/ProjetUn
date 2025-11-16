@@ -6,11 +6,9 @@ import { quitter } from "./utils.js";
 
 export function runApplication() {
     while (true) {
-        console.clear();
         afficherMenuPrincipal();
         const choix = demanderChoixUtilisateur();
 
-        console.clear();
         if (choix === 1) {
             ajouterDS();
         } else if (choix === 2){
