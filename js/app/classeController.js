@@ -1,5 +1,5 @@
-import { classes, devoirsSurveilles } from "../data/data.js";
-import { consulterNotesDS } from "./devoirSurveilleController.js";
+import {classes, devoirsSurveilles} from "../data/data.js";
+import {consulterNotesDS} from "./devoirSurveilleController.js";
 
 // --------- Helpers for classe consultation ---------
 

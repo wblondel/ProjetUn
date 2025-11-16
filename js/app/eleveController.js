@@ -1,4 +1,4 @@
-import { classes, notes } from "../data/data.js";
+import {classes, notes} from "../data/data.js";
 
 // --------- Helpers ---------
 
@@ -7,7 +7,7 @@ function construireListeElevesAvecClasse() {
 
     classes.forEach((classe) => {
         classe.eleves.forEach((eleve) => {
-            elevesAvecClasse.push({ eleve, classe });
+            elevesAvecClasse.push({eleve, classe});
         });
     });
 
@@ -101,7 +101,7 @@ export function consulterNotesEleve() {
             continue;
         }
 
-        const { eleve } = elevesAvecClasse[indexEleve];
+        const {eleve} = elevesAvecClasse[indexEleve];
         afficherNotesPourEleve(eleve);
 
         const continuer = prompt(

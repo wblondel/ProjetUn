@@ -1,5 +1,5 @@
-import { classes } from "../data/data.js";
-import { Eleve } from "../models/Eleve.js";
+import {classes} from "../data/data.js";
+import {Eleve} from "../models/Eleve.js";
 
 export function quitter() {
     console.log("Au revoir !");

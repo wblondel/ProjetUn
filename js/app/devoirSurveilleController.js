@@ -1,8 +1,8 @@
-import { Classe } from "../models/Classe.js";
-import { DevoirSurveille } from "../models/DevoirSurveille.js";
-import { Note } from "../models/Note.js";
-import { classes, devoirsSurveilles, notes } from "../data/data.js";
-import { creerEleveDepuisPrompt, trouverClasseParNom } from "./utils.js";
+import {Classe} from "../models/Classe.js";
+import {DevoirSurveille} from "../models/DevoirSurveille.js";
+import {Note} from "../models/Note.js";
+import {classes, devoirsSurveilles, notes} from "../data/data.js";
+import {creerEleveDepuisPrompt, trouverClasseParNom} from "./utils.js";
 
 export function ajouterDS() {
     const date = prompt("Entrez la date du devoir surveillé (jj/mm/aaaa) :");

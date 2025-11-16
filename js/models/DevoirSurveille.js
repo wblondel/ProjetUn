@@ -31,7 +31,7 @@ export class DevoirSurveille {
         );
         const noteMoyenne = sommeNotes / valeurs.length;
 
-        return { noteMin, noteMax, noteMoyenne };
+        return {noteMin, noteMax, noteMoyenne};
     }
 
     afficherStatsNotes(notesDuDevoir) {
