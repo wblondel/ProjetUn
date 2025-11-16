@@ -57,7 +57,7 @@ function afficherNotesPourEleve(eleve) {
     notesDeCetEleve.forEach((note) => {
         const devoir = note.devoir;
         console.log(
-            `DS n°${devoir.id} du ${devoir.date} ` +
+            `${devoir.numero}. DS du ${devoir.date} ` +
             `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient}) : ` +
             `${note.valeur}`
         );
@@ -71,7 +71,7 @@ function afficherNotesPourEleve(eleve) {
         );
     } else {
         console.log(
-            `Moyenne pondérée de ${nomComplet} : ${moyenne.toFixed(2)}`
+            `Moyenne : ${moyenne.toFixed(2)}`
         );
     }
     console.log("------------------------------");

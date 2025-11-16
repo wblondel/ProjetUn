@@ -1,12 +1,14 @@
 export class DevoirSurveille {
     /**
-     * @param {number} id
-     * @param {string} date // text "jj/mm/aaaa"
+     * @param {number} id           // identifiant global unique
+     * @param {number} numero       // numéro du DS dans la classe
+     * @param {string} date         // texte "jj/mm/aaaa"
      * @param {number} coefficient
      * @param {Classe} classe
      */
-    constructor(id, date, coefficient, classe) {
+    constructor(id, numero, date, coefficient, classe) {
         this.id = id;
+        this.numero = numero;
         this.date = date;
         this.coefficient = coefficient;
         this.classe = classe;
@@ -14,7 +16,9 @@ export class DevoirSurveille {
 
     /**
      * Calcule les stats à partir d'une liste de notes (pour ce devoir).
+     *
      * @param {Note[]} notesDuDevoir
+     * @returns {{noteMin: number, noteMax: number, noteMoyenne: number} | undefined}
      */
     calculerStats(notesDuDevoir) {
         const valeurs = notesDuDevoir.map((note) => note.valeur);

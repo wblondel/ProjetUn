@@ -23,19 +23,26 @@ export function ajouterDS() {
         prompt("Combien de notes voulez-vous entrer ?")
     );
 
-    // On génère un ID unique pour le devoir surveillé
+    // ID global unique pour le devoir surveillé
     const id = devoirsSurveilles.length + 1;
+
+    // Numéro du DS dans cette classe
+    const numeroDansClasse =
+        devoirsSurveilles.filter(
+            (ds) => ds.classe === classeDevoirSurveille
+        ).length + 1;
 
     // On crée le devoir surveillé immédiatement, pour pouvoir le lier aux Notes
     const nouveauDevoir = new DevoirSurveille(
         id,
+        numeroDansClasse,
         date,
         coefficient,
         classeDevoirSurveille
     );
     devoirsSurveilles.push(nouveauDevoir);
 
-    // Un seul passage : on récupère / crée l'élève et on crée la Note
+    // On récupère / crée l'élève et on crée la Note
     for (let i = 0; i < nombreNotes; i++) {
         const numeroEleve = i + 1;
 
@@ -58,7 +65,9 @@ export function ajouterDS() {
     const notesDuDevoir = notes.filter((note) => note.devoir === nouveauDevoir);
     nouveauDevoir.afficherStatsNotes(notesDuDevoir);
 
-    alert(`Devoir surveillé n°${nouveauDevoir.id} créé.`)
+    alert(
+        `Devoir surveillé n°${nouveauDevoir.numero} pour la classe ${classeDevoirSurveille} créé.`
+    )
 }
 
 // --------- Helpers for DS consultation ---------
@@ -71,7 +80,7 @@ function afficherListeDevoirs() {
     console.log("Liste des devoirs surveillés :");
     devoirsSurveilles.forEach((devoir) => {
         console.log(
-            `DS n°${devoir.id} du ${devoir.date} ` +
+            `${devoir.id}. DS n°${devoir.numero} du ${devoir.date} ` +
             `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient})`
         );
     });

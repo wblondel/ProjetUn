@@ -1,4 +1,4 @@
-import {classes, devoirsSurveilles} from "../data/data.js";
+import {classes, devoirsSurveilles, notes} from "../data/data.js";
 import {consulterNotesDS} from "./devoirSurveilleController.js";
 
 // --------- Helpers for classe consultation ---------
@@ -35,18 +35,58 @@ function selectionnerClasseParIndex(indexClasse) {
     return classes[indexClasse];
 }
 
-function afficherDevoirsPourClasse(classeSelectionnee, choixPossibles) {
-    console.log(
-        `Devoirs surveillés pour la classe ${classeSelectionnee.nom} :`
+/**
+ * Calcule la moyenne pondérée de toutes les notes d'une classe,
+ * en tenant compte des coefficients des DS.
+ */
+function calculerMoyenneClasse(classeSelectionnee) {
+    const notesDeLaClasse = notes.filter(
+        (note) => note.devoir.classe === classeSelectionnee
     );
+
+    if (notesDeLaClasse.length === 0) {
+        return null;
+    }
+
+    let sommePonderee = 0;
+    let sommeCoefficients = 0;
+
+    notesDeLaClasse.forEach((note) => {
+        const coeff = note.devoir.coefficient;
+        sommePonderee += note.valeur * coeff;
+        sommeCoefficients += coeff;
+    });
+
+    if (sommeCoefficients === 0) {
+        return null;
+    }
+
+    return sommePonderee / sommeCoefficients;
+}
+
+/**
+ * Affiche les DS d'une Classe avec une numérotation locale.
+ *
+ * Remplit le tableau `devoirClasse` avec les DevoirSurveille correspondants
+ * dans le même ordre que l'affichage.
+ */
+function afficherDevoirsPourClasse(classeSelectionnee, devoirsClasse) {
+    console.log(
+        `Devoirs surveillés :`
+    );
+
     devoirsSurveilles.forEach((devoir) => {
         if (devoir.classe === classeSelectionnee) {
-            choixPossibles.push(devoir.id);
+            devoirsClasse.push(devoir);
+            const numeroLocal = devoirsClasse.length;
+
             console.log(
-                `DS n°${devoir.id} du ${devoir.date} (Coefficient: ${devoir.coefficient})`
+                `${numeroLocal}. DS du ${devoir.date} ` +
+                `(Coefficient: ${devoir.coefficient})`
             );
         }
     });
+
     console.log("0. Retour à la sélection de classe");
     console.log("------------------------------");
 }
@@ -69,18 +109,36 @@ export function consulterClasse() {
 
         const classeSelectionnee = selectionnerClasseParIndex(indexClasse);
 
-        while (true) {
-            const choixPossibles = [];
-            afficherDevoirsPourClasse(classeSelectionnee, choixPossibles);
+        const moyenneClasse = calculerMoyenneClasse(classeSelectionnee);
 
-            const numeroDS = parseInt(prompt("Quel DS voulez-vous consulter ?"));
+
+        while (true) {
+            console.log(`Classe ${classeSelectionnee.nom}`);
+            if (moyenneClasse !== null) {
+                console.log(`Moyenne : ${moyenneClasse.toFixed(2)}`);
+            }
+
+            const devoirsClasse = [];
+            afficherDevoirsPourClasse(classeSelectionnee, devoirsClasse);
+
+            const numeroDS = parseInt(
+                prompt("Quel DS voulez-vous consulter ?")
+            );
             if (numeroDS === 0) {
                 break;
             }
 
-            if (choixPossibles.includes(numeroDS)) {
-                consulterNotesDS(numeroDS);
+            if (
+                !Number.isInteger(numeroDS) ||
+                numeroDS < 1 ||
+                numeroDS > devoirsClasse.length
+            ) {
+                console.log("Choix invalide. Veuillez réessayer.");
+                continue;
             }
+
+            const devoirChoisi = devoirsClasse[numeroDS - 1];
+            consulterNotesDS(devoirChoisi.id);
         }
     }
 }
