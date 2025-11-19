@@ -17,10 +17,6 @@ export class ConsoleView {
         });
     }
 
-    demanderChoix(question) {
-        return prompt(question);
-    }
-
     demanderEntier(question) {
         return parseInt(prompt(question));
     }
