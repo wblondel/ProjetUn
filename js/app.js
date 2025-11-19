@@ -1,8 +1,8 @@
-import {ajouterDS, consulterNotesDSDepuisMenu} from "./devoirSurveilleController.js";
-import {consulterClasse} from "./classeController.js";
-import {consulterNotesEleve} from "./eleveController.js";
-import {afficherMenuPrincipal, demanderChoixUtilisateur} from "./menu.js";
-import {quitter} from "./utils.js";
+import { ajouterDS, consulterNotesDSDepuisMenu } from "./controllers/DevoirSurveilleController.js";
+import { consulterClasse } from "./controllers/ClasseController.js";
+import { consulterNotesEleve } from "./controllers/EleveController.js";
+import { afficherMenuPrincipal, demanderChoixUtilisateur } from "./views/MenuView.js";
+import { quitter } from "./utils/utils.js";
 
 export function runApplication() {
     while (true) {

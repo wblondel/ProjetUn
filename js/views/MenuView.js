@@ -1,4 +1,4 @@
-import { consoleView } from "../views/ConsoleView.js";
+import { consoleView } from "./ConsoleView.js";
 
 export function afficherMenuPrincipal() {
     consoleView.afficherTitre("Gestionnaire de devoirs surveillés");

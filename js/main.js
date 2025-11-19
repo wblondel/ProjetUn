@@ -1,3 +1,3 @@
-import {runApplication} from "./app/app.js";
+import { runApplication } from "./app.js";
 
 runApplication();

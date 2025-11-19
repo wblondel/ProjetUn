@@ -6,7 +6,7 @@ import { devoirRepository } from "../repositories/DevoirRepository.js";
 import { noteRepository } from "../repositories/NoteRepository.js";
 import { statsService } from "../services/StatistiquesService.js";
 import { consoleView } from "../views/ConsoleView.js";
-import { creerEleveDepuisPrompt } from "./utils.js";
+import { creerEleveDepuisPrompt } from "../utils/utils.js";
 
 export function ajouterDS() {
     const date = consoleView.demanderTexte("Entrez la date du devoir surveillé (jj/mm/aaaa) :");

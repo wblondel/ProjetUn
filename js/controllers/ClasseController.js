@@ -2,7 +2,7 @@ import { classeRepository } from "../repositories/ClasseRepository.js";
 import { devoirRepository } from "../repositories/DevoirRepository.js";
 import { statsService } from "../services/StatistiquesService.js";
 import { consoleView } from "../views/ConsoleView.js";
-import { consulterNotesDS } from "./devoirSurveilleController.js";
+import { consulterNotesDS } from "./DevoirSurveilleController.js";
 
 export function consulterClasse() {
     while (true) {
