@@ -15,6 +15,10 @@ export class ClasseRepository {
     add(classe) {
         classes.push(classe);
     }
+
+    getByName(nom) {
+        return classes.find(c => c.nom === nom);
+    }
 }
 
 export const classeRepository = new ClasseRepository();

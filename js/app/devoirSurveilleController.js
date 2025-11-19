@@ -6,14 +6,14 @@ import { devoirRepository } from "../repositories/DevoirRepository.js";
 import { noteRepository } from "../repositories/NoteRepository.js";
 import { statsService } from "../services/StatistiquesService.js";
 import { consoleView } from "../views/ConsoleView.js";
-import { trouverClasseParNom, creerEleveDepuisPrompt } from "./utils.js";
+import { creerEleveDepuisPrompt } from "./utils.js";
 
 export function ajouterDS() {
     const date = consoleView.demanderTexte("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
     const coefficient = parseFloat(consoleView.demanderTexte("Entrez le coefficient du devoir surveillé :"));
     const nomClasse = consoleView.demanderTexte("Entrez la classe (ex: 3A, 2B, etc.) :");
 
-    let classeDevoirSurveille = trouverClasseParNom(nomClasse);
+    let classeDevoirSurveille = classeRepository.getByName(nomClasse);
 
     // Si la classe n'existe pas, on la créé vide tout de suite
     if (!classeDevoirSurveille) {
