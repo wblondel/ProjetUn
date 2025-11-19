@@ -8,7 +8,13 @@ import { statsService } from "../services/StatistiquesService.js";
 import { consoleView } from "../views/ConsoleView.js";
 import { creerEleveDepuisPrompt } from "../utils/utils.js";
 
+/**
+ * Contrôleur gérant les opérations liées aux devoirs surveillés.
+ */
 export class DevoirSurveilleController {
+    /**
+     * Ajoute un nouveau devoir surveillé avec saisie des notes.
+     */
     ajouterDS() {
         const date = consoleView.demanderTexte("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
         const coefficient = parseFloat(consoleView.demanderTexte("Entrez le coefficient du devoir surveillé :"));
@@ -66,6 +72,10 @@ export class DevoirSurveilleController {
         );
     }
 
+    /**
+     * Consulte les notes et statistiques d'un devoir surveillé spécifique.
+     * @param {number} numeroDS - L'index (1-based) du devoir dans la liste globale.
+     */
     consulterNotesDS(numeroDS) {
         const devoirs = devoirRepository.getAll();
         if (devoirs.length === 0) {
@@ -95,6 +105,9 @@ export class DevoirSurveilleController {
         consoleView.afficherSeparateur();
     }
 
+    /**
+     * Affiche la liste des devoirs surveillés et permet d'en sélectionner un pour consultation.
+     */
     consulterNotesDSDepuisMenu() {
         const devoirs = devoirRepository.getAll();
         if (devoirs.length === 0) {

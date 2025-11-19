@@ -3,7 +3,14 @@ import { noteRepository } from "../repositories/NoteRepository.js";
 import { statsService } from "../services/StatistiquesService.js";
 import { consoleView } from "../views/ConsoleView.js";
 
+/**
+ * Contrôleur gérant les opérations liées aux élèves.
+ */
 export class EleveController {
+    /**
+     * Construit une liste plate des élèves avec leur classe associée.
+     * @return {Array<{eleve: Eleve, classe: Classe}>} La liste des élèves avec leur classe.
+     */
     construireListeElevesAvecClasse() {
         const elevesAvecClasse = [];
         const classes = classeRepository.getAll();
@@ -17,6 +24,9 @@ export class EleveController {
         return elevesAvecClasse;
     }
 
+    /**
+     * Affiche la liste des élèves et permet de consulter les notes d'un élève sélectionné.
+     */
     consulterNotesEleve() {
         const elevesAvecClasse = this.construireListeElevesAvecClasse();
 

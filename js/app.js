@@ -4,6 +4,9 @@ import { eleveController } from "./controllers/EleveController.js";
 import { afficherMenuPrincipal, demanderChoixUtilisateur } from "./views/MenuView.js";
 import { quitter } from "./utils/utils.js";
 
+/**
+ * Lance la boucle principale de l'application.
+ */
 export function runApplication() {
     while (true) {
         afficherMenuPrincipal();

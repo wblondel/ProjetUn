@@ -4,7 +4,13 @@ import { statsService } from "../services/StatistiquesService.js";
 import { consoleView } from "../views/ConsoleView.js";
 import { devoirSurveilleController } from "./DevoirSurveilleController.js";
 
+/**
+ * Contrôleur gérant les opérations liées aux classes.
+ */
 export class ClasseController {
+    /**
+     * Affiche la liste des classes et permet de consulter les détails d'une classe sélectionnée.
+     */
     consulterClasse() {
         while (true) {
             const classes = classeRepository.getAll();

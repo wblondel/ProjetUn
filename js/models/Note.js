@@ -1,8 +1,12 @@
+/**
+ * Représente une note obtenue par un élève à un devoir.
+ */
 export class Note {
     /**
-     * @param {Eleve} eleve
-     * @param {DevoirSurveille} devoir
-     * @param {number} valeur
+     * Crée une nouvelle instance de Note.
+     * @param {Eleve} eleve - L'élève ayant obtenu la note.
+     * @param {DevoirSurveille} devoir - Le devoir concerné.
+     * @param {number} valeur - La valeur de la note.
      */
     constructor(eleve, devoir, valeur) {
         this.eleve = eleve;

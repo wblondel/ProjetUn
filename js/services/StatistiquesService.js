@@ -1,19 +1,15 @@
 import { noteRepository } from "../repositories/NoteRepository.js";
 
+/**
+ * Service responsable des calculs statistiques.
+ */
 export class StatistiquesService {
+    /**
+     * Calcule la moyenne pondérée d'une classe.
+     * @param {Classe} classe - La classe dont on veut la moyenne.
+     * @return {number|null} La moyenne de la classe ou null si aucune note/coefficient.
+     */
     calculerMoyenneClasse(classe) {
-        // We need to get all notes for this class.
-        // Since notes are linked to Devoir, and Devoir is linked to Classe,
-        // we can iterate over all notes and check if note.devoir.classe === classe.
-        // Or better, use the repository.
-
-        // However, NoteRepository currently has getByDevoir and getByEleve.
-        // Let's fetch all notes and filter, or add a method to NoteRepository.
-        // For now, let's filter here or assume we can get them.
-
-        // Actually, the original logic was:
-        // const notesDeLaClasse = notes.filter(note => note.devoir.classe === classeSelectionnee);
-
         const allNotes = noteRepository.getAll();
         const notesDeLaClasse = allNotes.filter(note => note.devoir.classe === classe);
 
@@ -37,6 +33,11 @@ export class StatistiquesService {
         return sommePonderee / sommeCoefficients;
     }
 
+    /**
+     * Calcule la moyenne pondérée d'un élève.
+     * @param {Eleve} eleve - L'élève dont on veut la moyenne.
+     * @return {number|null} La moyenne de l'élève ou null si aucune note/coefficient.
+     */
     calculerMoyenneEleve(eleve) {
         const notesEleve = noteRepository.getByEleve(eleve);
 
@@ -60,6 +61,11 @@ export class StatistiquesService {
         return sommePonderee / sommeCoefficients;
     }
 
+    /**
+     * Calcule les statistiques (min, max, moyenne) d'un devoir.
+     * @param {DevoirSurveille} devoir - Le devoir concerné.
+     * @return {{min: number, max: number, moyenne: number}|null} Les statistiques ou null si aucune note.
+     */
     calculerStatsDevoir(devoir) {
         const notesDevoir = noteRepository.getByDevoir(devoir);
 

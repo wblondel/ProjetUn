@@ -1,7 +1,11 @@
+/**
+ * Représente un élève.
+ */
 export class Eleve {
     /**
-     * @param {string} nom
-     * @param {string} prenom
+     * Crée une nouvelle instance d'Eleve.
+     * @param {string} nom - Le nom de l'élève.
+     * @param {string} prenom - Le prénom de l'élève.
      */
     constructor(nom, prenom) {
         this.nom = nom;
@@ -9,9 +13,8 @@ export class Eleve {
     }
 
     /**
-     * Retourne le nom complet de l'Eleve en combinant le prénom et le nom.
-     *
-     * @return {string} Le nom complet composé du prénom et du nom.
+     * Retourne le nom complet de l'élève.
+     * @return {string} Le nom complet (Prénom Nom).
      */
     getNomComplet() {
         return `${this.prenom} ${this.nom}`;

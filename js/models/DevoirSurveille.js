@@ -1,10 +1,14 @@
+/**
+ * Représente un devoir surveillé.
+ */
 export class DevoirSurveille {
     /**
-     * @param {number} id           // identifiant global unique
-     * @param {number} numero       // numéro du DS dans la classe
-     * @param {string} date         // texte "jj/mm/aaaa"
-     * @param {number} coefficient
-     * @param {Classe} classe
+     * Crée une nouvelle instance de DevoirSurveille.
+     * @param {number} id - L'identifiant unique du devoir.
+     * @param {number} numero - Le numéro du devoir dans la classe.
+     * @param {string} date - La date du devoir (format "jj/mm/aaaa").
+     * @param {number} coefficient - Le coefficient du devoir.
+     * @param {Classe} classe - La classe associée au devoir.
      */
     constructor(id, numero, date, coefficient, classe) {
         this.id = id;
