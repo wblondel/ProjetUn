@@ -1,6 +1,6 @@
-import { ajouterDS, consulterNotesDSDepuisMenu } from "./controllers/DevoirSurveilleController.js";
-import { consulterClasse } from "./controllers/ClasseController.js";
-import { consulterNotesEleve } from "./controllers/EleveController.js";
+import { devoirSurveilleController } from "./controllers/DevoirSurveilleController.js";
+import { classeController } from "./controllers/ClasseController.js";
+import { eleveController } from "./controllers/EleveController.js";
 import { afficherMenuPrincipal, demanderChoixUtilisateur } from "./views/MenuView.js";
 import { quitter } from "./utils/utils.js";
 
@@ -10,13 +10,13 @@ export function runApplication() {
         const choix = demanderChoixUtilisateur();
 
         if (choix === 1) {
-            ajouterDS();
+            devoirSurveilleController.ajouterDS();
         } else if (choix === 2) {
-            consulterNotesDSDepuisMenu();
+            devoirSurveilleController.consulterNotesDSDepuisMenu();
         } else if (choix === 3) {
-            consulterClasse();
+            classeController.consulterClasse();
         } else if (choix === 4) {
-            consulterNotesEleve();
+            eleveController.consulterNotesEleve();
         } else if (choix === 0) {
             quitter();
         }
