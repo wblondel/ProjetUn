@@ -1,38 +1,35 @@
-import {Classe} from "../models/Classe.js";
-import {DevoirSurveille} from "../models/DevoirSurveille.js";
-import {Note} from "../models/Note.js";
-import {classes, devoirsSurveilles, notes} from "../data/data.js";
-import {creerEleveDepuisPrompt, trouverClasseParNom} from "./utils.js";
+import { Classe } from "../models/Classe.js";
+import { DevoirSurveille } from "../models/DevoirSurveille.js";
+import { Note } from "../models/Note.js";
+import { classeRepository } from "../repositories/ClasseRepository.js";
+import { devoirRepository } from "../repositories/DevoirRepository.js";
+import { noteRepository } from "../repositories/NoteRepository.js";
+import { statsService } from "../services/StatistiquesService.js";
+import { consoleView } from "../views/ConsoleView.js";
+import { trouverClasseParNom, creerEleveDepuisPrompt } from "./utils.js";
 
 export function ajouterDS() {
-    const date = prompt("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
-    const coefficient = parseFloat(
-        prompt("Entrez le coefficient du devoir surveillé :")
-    );
-    const nomClasse = prompt("Entrez la classe (ex: 3A, 2B, etc.) :");
+    const date = consoleView.demanderTexte("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
+    const coefficient = parseFloat(consoleView.demanderTexte("Entrez le coefficient du devoir surveillé :"));
+    const nomClasse = consoleView.demanderTexte("Entrez la classe (ex: 3A, 2B, etc.) :");
 
     let classeDevoirSurveille = trouverClasseParNom(nomClasse);
 
     // Si la classe n'existe pas, on la créé vide tout de suite
     if (!classeDevoirSurveille) {
         classeDevoirSurveille = new Classe(nomClasse, []);
-        classes.push(classeDevoirSurveille);
+        classeRepository.add(classeDevoirSurveille);
     }
 
-    const nombreNotes = parseInt(
-        prompt("Combien de notes voulez-vous entrer ?")
-    );
+    const nombreNotes = consoleView.demanderEntier("Combien de notes voulez-vous entrer ?");
 
     // ID global unique pour le devoir surveillé
-    const id = devoirsSurveilles.length + 1;
+    const id = devoirRepository.getAll().length + 1;
 
     // Numéro du DS dans cette classe
-    const numeroDansClasse =
-        devoirsSurveilles.filter(
-            (ds) => ds.classe === classeDevoirSurveille
-        ).length + 1;
+    const numeroDansClasse = devoirRepository.getByClasse(classeDevoirSurveille).length + 1;
 
-    // On crée le devoir surveillé immédiatement, pour pouvoir le lier aux Notes
+    // On crée le devoir surveillé immédiatement
     const nouveauDevoir = new DevoirSurveille(
         id,
         numeroDansClasse,
@@ -40,7 +37,7 @@ export function ajouterDS() {
         coefficient,
         classeDevoirSurveille
     );
-    devoirsSurveilles.push(nouveauDevoir);
+    devoirRepository.add(nouveauDevoir);
 
     // On récupère / crée l'élève et on crée la Note
     for (let i = 0; i < nombreNotes; i++) {
@@ -54,125 +51,74 @@ export function ajouterDS() {
             classeDevoirSurveille.ajouterEleve(eleve);
         }
 
-        const noteSaisie = parseFloat(
-            prompt(`Entrez la note ${numeroEleve} :`)
-        );
-        notes.push(new Note(eleve, nouveauDevoir, noteSaisie));
+        const noteSaisie = parseFloat(consoleView.demanderTexte(`Entrez la note ${numeroEleve} :`));
+        noteRepository.add(new Note(eleve, nouveauDevoir, noteSaisie));
     }
 
-    console.log(nouveauDevoir);
+    consoleView.afficherMessage(nouveauDevoir);
 
-    const notesDuDevoir = notes.filter((note) => note.devoir === nouveauDevoir);
-    nouveauDevoir.afficherStatsNotes(notesDuDevoir);
+    const stats = statsService.calculerStatsDevoir(nouveauDevoir);
+    consoleView.afficherStatsDevoir(stats);
 
     alert(
-        `Devoir surveillé n°${nouveauDevoir.numero} pour la classe ${classeDevoirSurveille} créé.`
-    )
-}
-
-// --------- Helpers for DS consultation ---------
-
-function hasDevoirsSurveilles() {
-    return devoirsSurveilles.length > 0;
-}
-
-function afficherListeDevoirs() {
-    console.log("Liste des devoirs surveillés :");
-    devoirsSurveilles.forEach((devoir) => {
-        console.log(
-            `${devoir.id}. DS n°${devoir.numero} du ${devoir.date} ` +
-            `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient})`
-        );
-    });
-    console.log("0. Retour au menu principal");
-    console.log("------------------------------");
-}
-
-function demanderNumeroDSDepuisListe() {
-    const saisie = prompt("Votre choix ? ");
-    return parseInt(saisie);
-}
-
-function estNumeroDSValide(numeroDS) {
-    return (
-        Number.isInteger(numeroDS) &&
-        numeroDS >= 1 &&
-        numeroDS <= devoirsSurveilles.length
+        `Devoir surveillé n°${nouveauDevoir.numero} pour la classe ${classeDevoirSurveille.nom} créé.`
     );
 }
 
-function trouverDevoirParNumero(numeroDS) {
-    return devoirsSurveilles[numeroDS - 1];
-}
-
-function afficherEnteteDevoir(devoir) {
-    const classe = devoir.classe;
-    console.log(`Devoir Surveillé n°${devoir.id} du ${devoir.date}`);
-    console.log(`Coefficient: ${devoir.coefficient}`);
-    console.log(`Classe: ${classe.nom}`);
-}
-
-function afficherNotesEleves(devoir) {
-    const notesDuDevoir = notes.filter((note) => note.devoir === devoir);
-
-    if (!notesDuDevoir || notesDuDevoir.length === 0) {
-        return;
-    }
-
-    console.log();
-    console.log("Élèves et leurs notes :");
-
-    notesDuDevoir.forEach((note) => {
-        console.log(`${note.eleve.getNomComplet()} : ${note.valeur}`);
-    });
-}
-
-function afficherDetailsDevoir(devoir) {
-    const notesDuDevoir = notes.filter((note) => note.devoir === devoir);
-    afficherEnteteDevoir(devoir);
-    devoir.afficherStatsNotes(notesDuDevoir);
-    afficherNotesEleves(devoir);
-    console.log("------------------------------");
-}
-
-// --------- Public API ---------
-/**
- * Affiche les détails d'un DS identifié par son numéro.
- */
 export function consulterNotesDS(numeroDS) {
-    if (!hasDevoirsSurveilles()) {
+    const devoirs = devoirRepository.getAll();
+    if (devoirs.length === 0) {
         alert("Pas de devoirs surveillés.");
         return;
     }
 
-    if (!estNumeroDSValide(numeroDS)) {
+    // Note: The original code expected numeroDS to be the ID directly or index+1.
+    // The original estNumeroDSValide checked against devoirsSurveilles.length.
+    // trouverDevoirParNumero used devoirsSurveilles[numeroDS - 1].
+    // So numeroDS is effectively the index + 1.
+
+    if (isNaN(numeroDS) || numeroDS < 1 || numeroDS > devoirs.length) {
         alert("Numéro de DS invalide.");
         return;
     }
 
-    const devoir = trouverDevoirParNumero(numeroDS);
-    afficherDetailsDevoir(devoir);
+    const devoir = devoirs[numeroDS - 1];
+
+    consoleView.afficherTitre(`Devoir Surveillé n°${devoir.id} du ${devoir.date}`);
+    consoleView.afficherMessage(`Coefficient: ${devoir.coefficient}`);
+    consoleView.afficherMessage(`Classe: ${devoir.classe.nom}`);
+
+    const stats = statsService.calculerStatsDevoir(devoir);
+    consoleView.afficherStatsDevoir(stats);
+
+    const notesDuDevoir = noteRepository.getByDevoir(devoir);
+    if (notesDuDevoir.length > 0) {
+        consoleView.afficherMessage("\nÉlèves et leurs notes :");
+        consoleView.afficherListe(notesDuDevoir, (n) => `${n.eleve.getNomComplet()} : ${n.valeur}`);
+    }
+    consoleView.afficherSeparateur();
 }
 
-/**
- * liste les DS, demande un choix, affiche le détail,
- * et redemande tant que l'utilisateur le souhaite.
- */
 export function consulterNotesDSDepuisMenu() {
-    if (!hasDevoirsSurveilles()) {
+    const devoirs = devoirRepository.getAll();
+    if (devoirs.length === 0) {
         alert("Pas de devoirs surveillés.");
         return;
     }
 
     while (true) {
-        afficherListeDevoirs();
-        const numeroDemande = demanderNumeroDSDepuisListe();
+        consoleView.afficherTitre("Liste des devoirs surveillés");
+        consoleView.afficherListe(devoirs, (d) => `DS n°${d.numero} du ${d.date} (Classe: ${d.classe.nom}, Coefficient: ${d.coefficient})`);
+        consoleView.afficherMessage("0. Retour au menu principal");
+        consoleView.afficherSeparateur();
 
-        if (numeroDemande === 0 || Number.isNaN(numeroDemande)) {
+        const numeroDemande = consoleView.demanderEntier("Votre choix ? ");
+
+        if (numeroDemande === 0 || isNaN(numeroDemande)) {
             return;
         }
 
-        if (!estNumeroDSValide(numeroDemande)) {
+        if (numeroDemande < 1 || numeroDemande > devoirs.length) {
             alert("Numéro de DS invalide.");
             continue;
         }

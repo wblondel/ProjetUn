@@ -1,83 +1,20 @@
-import {classes, notes} from "../data/data.js";
-
-// --------- Helpers ---------
+import { classeRepository } from "../repositories/ClasseRepository.js";
+import { noteRepository } from "../repositories/NoteRepository.js";
+import { statsService } from "../services/StatistiquesService.js";
+import { consoleView } from "../views/ConsoleView.js";
 
 function construireListeElevesAvecClasse() {
     const elevesAvecClasse = [];
+    const classes = classeRepository.getAll();
 
     classes.forEach((classe) => {
         classe.eleves.forEach((eleve) => {
-            elevesAvecClasse.push({eleve, classe});
+            elevesAvecClasse.push({ eleve, classe });
         });
     });
 
     return elevesAvecClasse;
 }
-
-function afficherListeEleves(elevesAvecClasse) {
-    console.log("Liste des élèves :");
-    elevesAvecClasse.forEach(({eleve, classe}, index) => {
-        const numero = index + 1;
-        const nomComplet = eleve.getNomComplet();
-        console.log(`${numero}. ${nomComplet} (Classe: ${classe.nom})`);
-    });
-    console.log("0. Retour au menu principal");
-    console.log("------------------------------");
-}
-
-function demanderIndexEleve(maxIndex) {
-    const saisie = parseInt(prompt("Quel élève voulez-vous consulter ? "));
-
-    if (saisie === 0 || Number.isNaN(saisie)) {
-        return null;
-    }
-
-    const index = saisie - 1;
-    if (index < 0 || index >= maxIndex) {
-        return undefined; // invalide
-    }
-
-    return index;
-}
-
-function afficherNotesPourEleve(eleve) {
-    const nomComplet = eleve.getNomComplet();
-
-    console.log(`Notes pour ${nomComplet} :`);
-    console.log("------------------------------");
-
-    const notesDeCetEleve = notes.filter((note) => note.eleve === eleve);
-
-    if (notesDeCetEleve.length === 0) {
-        console.log("Aucune note trouvée pour cet élève.");
-        console.log("------------------------------");
-        return;
-    }
-
-    notesDeCetEleve.forEach((note) => {
-        const devoir = note.devoir;
-        console.log(
-            `${devoir.numero}. DS du ${devoir.date} ` +
-            `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient}) : ` +
-            `${note.valeur}`
-        );
-    });
-
-    const moyenne = eleve.calculerMoyennePonderee(notesDeCetEleve);
-    console.log("------------------------------");
-    if (moyenne === null) {
-        console.log(
-            `Impossible de calculer une moyenne pour ${nomComplet} (aucune note ou coefficients nuls).`
-        );
-    } else {
-        console.log(
-            `Moyenne : ${moyenne.toFixed(2)}`
-        );
-    }
-    console.log("------------------------------");
-}
-
-// --------- Public API ---------
 
 export function consulterNotesEleve() {
     const elevesAvecClasse = construireListeElevesAvecClasse();
@@ -88,25 +25,47 @@ export function consulterNotesEleve() {
     }
 
     while (true) {
-        afficherListeEleves(elevesAvecClasse);
+        consoleView.afficherTitre("Liste des élèves");
+        consoleView.afficherListe(elevesAvecClasse, ({ eleve, classe }) => `${eleve.getNomComplet()} (Classe: ${classe.nom})`);
+        consoleView.afficherMessage("0. Retour au menu principal");
+        consoleView.afficherSeparateur();
 
-        const indexEleve = demanderIndexEleve(elevesAvecClasse.length);
+        const indexEleve = consoleView.demanderEntier("Quel élève voulez-vous consulter ? ");
 
-        if (indexEleve === null) {
+        if (indexEleve === 0 || isNaN(indexEleve)) {
             return;
         }
 
-        if (indexEleve === undefined) {
+        if (indexEleve < 1 || indexEleve > elevesAvecClasse.length) {
             alert("Choix invalide. Veuillez réessayer.");
             continue;
         }
 
-        const {eleve} = elevesAvecClasse[indexEleve];
-        afficherNotesPourEleve(eleve);
+        const { eleve } = elevesAvecClasse[indexEleve - 1];
 
-        const continuer = prompt(
-            "Consulter les notes d'un autre élève ? (O/N) "
-        ).toUpperCase();
+        consoleView.afficherTitre(`Notes pour ${eleve.getNomComplet()}`);
+
+        const notesDeCetEleve = noteRepository.getByEleve(eleve);
+
+        if (notesDeCetEleve.length === 0) {
+            consoleView.afficherMessage("Aucune note trouvée pour cet élève.");
+        } else {
+            notesDeCetEleve.forEach((note) => {
+                const devoir = note.devoir;
+                consoleView.afficherMessage(
+                    `${devoir.numero}. DS du ${devoir.date} ` +
+                    `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient}) : ` +
+                    `${note.valeur}`
+                );
+            });
+
+            const moyenne = statsService.calculerMoyenneEleve(eleve);
+            consoleView.afficherSeparateur();
+            consoleView.afficherMoyenne(moyenne);
+        }
+        consoleView.afficherSeparateur();
+
+        const continuer = consoleView.demanderTexte("Consulter les notes d'un autre élève ? (O/N) ").toUpperCase();
 
         if (continuer !== "O") {
             return;

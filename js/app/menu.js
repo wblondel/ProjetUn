@@ -1,14 +1,15 @@
+import { consoleView } from "../views/ConsoleView.js";
+
 export function afficherMenuPrincipal() {
-    console.log("Bienvenue dans le gestionnaire de devoirs surveillés.");
-    console.log("1. Ajouter un devoir surveillé");
-    console.log("2. Consulter un DS");
-    console.log("3. Consulter une classe");
-    console.log("4. Consulter les notes d'un élève");
-    console.log("0. Quitter");
-    console.log("------------------------------");
+    consoleView.afficherTitre("Gestionnaire de devoirs surveillés");
+    consoleView.afficherMessage("1. Ajouter un devoir surveillé");
+    consoleView.afficherMessage("2. Consulter un DS");
+    consoleView.afficherMessage("3. Consulter une classe");
+    consoleView.afficherMessage("4. Consulter les notes d'un élève");
+    consoleView.afficherMessage("0. Quitter");
+    consoleView.afficherSeparateur();
 }
 
 export function demanderChoixUtilisateur() {
-    const saisie = prompt("Entrez votre choix (1, 2, 3, 4 ou 0) :");
-    return parseInt(saisie);
+    return consoleView.demanderEntier("Entrez votre choix (1, 2, 3, 4 ou 0) :");
 }
