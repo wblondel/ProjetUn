@@ -6,7 +6,7 @@ export class DevoirSurveille {
      * Crée une nouvelle instance de DevoirSurveille.
      * @param {number} id - L'identifiant unique du devoir.
      * @param {number} numero - Le numéro du devoir dans la classe.
-     * @param {string} date - La date du devoir (format "jj/mm/aaaa").
+     * @param {Date} date - La date du devoir (format date).
      * @param {number} coefficient - Le coefficient du devoir.
      * @param {Classe} classe - La classe associée au devoir.
      */
@@ -16,5 +16,9 @@ export class DevoirSurveille {
         this.date = date;
         this.coefficient = coefficient;
         this.classe = classe;
+    }
+
+    getDateFormatted() {
+        return this.date.toLocaleDateString('fr-FR');
     }
 }

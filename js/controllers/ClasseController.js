@@ -41,7 +41,7 @@ export class ClasseController {
                 const devoirsClasse = devoirRepository.getByClasse(classeSelectionnee);
 
                 consoleView.afficherMessage("Devoirs surveillés :");
-                consoleView.afficherListe(devoirsClasse, (d) => `DS du ${d.date} (Coefficient: ${d.coefficient})`);
+                consoleView.afficherListe(devoirsClasse, (d) => `DS du ${d.getDateFormatted()} (Coefficient: ${d.coefficient})`);
                 consoleView.afficherSeparateur();
                 consoleView.afficherMessage("0. Retour à la sélection de classe");
 

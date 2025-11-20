@@ -16,10 +16,10 @@ export let classes = [
 ];
 
 export let devoirsSurveilles = [
-    new DevoirSurveille(1, 1, "15/09/2023", 2, classes[0]),
-    new DevoirSurveille(2, 1, "20/09/2023", 3, classes[1]),
-    new DevoirSurveille(3, 2, "25/09/2023", 1.5, classes[0]),
-    new DevoirSurveille(4, 2, "30/09/2023", 2.5, classes[1])
+    new DevoirSurveille(1, 1, new Date(2023, 9, 15), 2, classes[0]),
+    new DevoirSurveille(2, 1, new Date(2023, 9, 20), 3, classes[1]),
+    new DevoirSurveille(3, 2, new Date(2023, 9, 25), 1.5, classes[0]),
+    new DevoirSurveille(4, 2, new Date(2023, 9, 30), 2.5, classes[1])
 ];
 
 export let notes = [

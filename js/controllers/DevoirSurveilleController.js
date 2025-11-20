@@ -16,7 +16,25 @@ export class DevoirSurveilleController {
      * Ajoute un nouveau devoir surveillé avec saisie des notes.
      */
     ajouterDS() {
-        const date = consoleView.demanderTexte("Entrez la date du devoir surveillé (jj/mm/aaaa) :");
+        let dateParsed;
+
+        while (true) {
+            const dateString = consoleView.demanderTexte("Entrez la date du devoir surveillé (aaaa/mm/jj) :");
+
+            // Validation stricte du format aaaa/mm/jj
+            if (!/^\d{4}\/\d{2}\/\d{2}$/.test(dateString)) {
+                consoleView.afficherMessage("Format invalide. Veuillez utiliser aaaa/mm/jj (ex: 2023/10/27).");
+                continue;
+            }
+
+            dateParsed = new Date(dateString);
+
+            if (!isNaN(dateParsed.getTime())) {
+                break;
+            }
+            consoleView.afficherMessage("Date invalide. Veuillez réessayer.");
+        }
+
         const coefficient = parseFloat(consoleView.demanderTexte("Entrez le coefficient du devoir surveillé :"));
         const nomClasse = consoleView.demanderTexte("Entrez la classe (ex: 3A, 2B, etc.) :");
 
@@ -40,7 +58,7 @@ export class DevoirSurveilleController {
         const nouveauDevoir = new DevoirSurveille(
             id,
             numeroDansClasse,
-            date,
+            dateParsed,
             coefficient,
             classeDevoirSurveille
         );
@@ -61,7 +79,7 @@ export class DevoirSurveilleController {
             let noteSaisie;
             do {
                 noteSaisie = parseFloat(consoleView.demanderTexte(`Entrez la note ${numeroEleve} :`));
-            } while (isNaN(noteSaisie ) || noteSaisie < 0 || noteSaisie > 20);
+            } while (isNaN(noteSaisie) || noteSaisie < 0 || noteSaisie > 20);
 
             noteRepository.add(new Note(eleve, nouveauDevoir, noteSaisie));
         }
@@ -94,7 +112,7 @@ export class DevoirSurveilleController {
 
         const devoir = devoirs[numeroDS - 1];
 
-        consoleView.afficherTitre(`Devoir Surveillé n°${devoir.id} du ${devoir.date}`);
+        consoleView.afficherTitre(`Devoir Surveillé n°${devoir.id} du ${devoir.getDateFormatted()}`);
         consoleView.afficherMessage(`Coefficient: ${devoir.coefficient}`);
         consoleView.afficherMessage(`Classe: ${devoir.classe.nom}`);
 
@@ -121,7 +139,7 @@ export class DevoirSurveilleController {
 
         while (true) {
             consoleView.afficherTitre("Liste des devoirs surveillés");
-            consoleView.afficherListe(devoirs, (d) => `DS n°${d.numero} du ${d.date} (Classe: ${d.classe.nom}, Coefficient: ${d.coefficient})`);
+            consoleView.afficherListe(devoirs, (d) => `DS n°${d.numero} du ${d.getDateFormatted()} (Classe: ${d.classe.nom}, Coefficient: ${d.coefficient})`);
             consoleView.afficherMessage("0. Retour au menu principal");
             consoleView.afficherSeparateur();
 

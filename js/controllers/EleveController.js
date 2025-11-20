@@ -64,7 +64,7 @@ export class EleveController {
                 notesDeCetEleve.forEach((note) => {
                     const devoir = note.devoir;
                     consoleView.afficherMessage(
-                        `${devoir.numero}. DS du ${devoir.date} ` +
+                        `${devoir.numero}. DS du ${devoir.getDateFormatted()} ` +
                         `(Classe: ${devoir.classe.nom}, Coefficient: ${devoir.coefficient}) : ` +
                         `${note.valeur}`
                     );
