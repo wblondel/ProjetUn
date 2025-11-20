@@ -1,3 +1,5 @@
 import { runApplication } from "./app.js";
 
-runApplication();
+document.getElementById("start-btn").addEventListener("click", () => {
+    runApplication();
+});
