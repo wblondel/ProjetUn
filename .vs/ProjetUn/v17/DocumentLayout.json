@@ -1,0 +1,164 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\controllers\\DevoirSurveilleController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\controllers\\DevoirSurveilleController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\controllers\\ClasseController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\controllers\\ClasseController.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\models\\Eleve.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\models\\Eleve.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\repositories\\ClasseRepository.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\repositories\\ClasseRepository.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\models\\Note.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\models\\Note.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\data\\data.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\data\\data.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\repositories\\DevoirRepository.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\repositories\\DevoirRepository.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DevoirSurveilleController.js",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\controllers\\DevoirSurveilleController.js",
+              "RelativeDocumentMoniker": "js\\controllers\\DevoirSurveilleController.js",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\controllers\\DevoirSurveilleController.js",
+              "RelativeToolTip": "js\\controllers\\DevoirSurveilleController.js",
+              "ViewState": "AgIAACwAAAAAAAAAAAAAwCsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-20T14:31:53.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Note.js",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\models\\Note.js",
+              "RelativeDocumentMoniker": "js\\models\\Note.js",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\models\\Note.js",
+              "RelativeToolTip": "js\\models\\Note.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-20T14:28:50.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DevoirRepository.js",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\repositories\\DevoirRepository.js",
+              "RelativeDocumentMoniker": "js\\repositories\\DevoirRepository.js",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\repositories\\DevoirRepository.js",
+              "RelativeToolTip": "js\\repositories\\DevoirRepository.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-20T14:27:30.785Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ClasseRepository.js",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\repositories\\ClasseRepository.js",
+              "RelativeDocumentMoniker": "js\\repositories\\ClasseRepository.js",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\repositories\\ClasseRepository.js",
+              "RelativeToolTip": "js\\repositories\\ClasseRepository.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-20T14:26:56.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Eleve.js",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\models\\Eleve.js",
+              "RelativeDocumentMoniker": "js\\models\\Eleve.js",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\models\\Eleve.js",
+              "RelativeToolTip": "js\\models\\Eleve.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-20T14:26:20.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClasseController.js",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\controllers\\ClasseController.js",
+              "RelativeDocumentMoniker": "js\\controllers\\ClasseController.js",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\controllers\\ClasseController.js",
+              "RelativeToolTip": "js\\controllers\\ClasseController.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-20T14:22:58.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "data.js",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\data\\data.js",
+              "RelativeDocumentMoniker": "js\\data\\data.js",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\js\\data\\data.js",
+              "RelativeToolTip": "js\\data\\data.js",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-20T14:22:28.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\index.html",
+              "RelativeDocumentMoniker": "index.html",
+              "ToolTip": "C:\\Users\\lucab\\source\\repos\\ProjetUn\\index.html",
+              "RelativeToolTip": "index.html",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAA0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-11-06T16:55:15.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

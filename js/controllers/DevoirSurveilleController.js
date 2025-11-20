@@ -58,7 +58,11 @@ export class DevoirSurveilleController {
                 classeDevoirSurveille.ajouterEleve(eleve);
             }
 
-            const noteSaisie = parseFloat(consoleView.demanderTexte(`Entrez la note ${numeroEleve} :`));
+            let noteSaisie;
+            do {
+                noteSaisie = parseFloat(consoleView.demanderTexte(`Entrez la note ${numeroEleve} :`));
+            } while (isNaN(noteSaisie ) || noteSaisie < 0 || noteSaisie > 20);
+
             noteRepository.add(new Note(eleve, nouveauDevoir, noteSaisie));
         }
 
