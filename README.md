@@ -41,9 +41,15 @@ Le projet est structuré de manière modulaire en utilisant les **ES Modules** e
 ## Comment lancer le projet
 
 1.  Clonez ce dépôt sur votre machine locale.
-2.  Ouvrez le fichier `index.html` dans un navigateur web moderne (Chrome, Firefox, Edge, etc.).
-3.  **Important** : Ouvrez la console de développement du navigateur (touche `F12` ou `Clic droit > Inspecter > Console`) pour voir les affichages du menu et des résultats.
-4.  Suivez les instructions affichées via les boîtes de dialogue (`prompt`) pour naviguer dans l'application.
+2.  **Lancer un serveur local** :
+    *   À cause des restrictions de sécurité des navigateurs (CORS) liées aux modules ES, vous ne pouvez pas simplement ouvrir le fichier `index.html`.
+    *   Vous devez utiliser un serveur HTTP local. Voici quelques options :
+        *   **Extension VS Code "Live Server"** : Si vous utilisez VS Code, installez l'extension et cliquez sur "Go Live".
+        *   **Python** : Ouvrez un terminal dans le dossier du projet et lancez `python -m http.server` (ou `python3 -m http.server`).
+        *   **Node.js** : Si Node.js est installé, vous pouvez utiliser `npx http-server`.
+3.  Accédez à l'URL indiquée par votre serveur (généralement `http://localhost:5500` ou `http://localhost:8000`).
+4.  **Important** : Ouvrez la console de développement du navigateur (touche `F12` ou `Clic droit > Inspecter > Console`) pour voir les affichages du menu et des résultats.
+5.  Suivez les instructions affichées via les boîtes de dialogue (`prompt`) pour naviguer dans l'application.
 
 ## Auteurs
 
